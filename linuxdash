@@ -1,0 +1,45 @@
+#!/bin/sh
+# /etc/init.d/linuxdash
+
+### BEGIN INIT INFO
+# Provides:          linuxdash
+# Required-Start:    $local_fs $remote_fs $network $syslog
+# Required-Stop:     $local_fs $remote_fs $network $syslog
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: starts the linuxdash server
+# Description:       starts linuxdash using start-stop-daemon
+### END INIT INFO
+
+# INSTALL: cp linuxdash /etc/init.d/ && update-rc.d linuxdash defaults
+# VERIFY: ls -l /etc/rc?.d/*linuxdash
+# UNINSTALL: update-rc.d -f linuxdash remove
+
+LINUXDASH_HOME="/usr/local/linuxdash"
+
+case "$1" in
+  start)
+    $LINUXDASH_HOME/start.sh
+    sleep 1
+    $LINUXDASH_HOME/status.sh
+    ;;
+  stop)
+    $LINUXDASH_HOME/stop.sh
+    ;;
+  status)
+    $LINUXDASH_HOME/status.sh
+    ;;
+  restart)
+    $LINUXDASH_HOME/stop.sh
+    sleep 1
+    $LINUXDASH_HOME/start.sh
+    sleep 1
+    $LINUXDASH_HOME/status.sh
+    ;;
+  *)
+    echo "Usage: service linuxdash {start|stop|status}"
+    exit 1
+    ;;
+esac
+
+exit 0
